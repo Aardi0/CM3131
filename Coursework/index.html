@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Care App</title>
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+
+    <script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src = "data.js"></script>
+
+    <link rel = "stylesheet" href="style.css"/>
+
+</head>
+<body>
+    <ion-app>
+        <ion-tabs>
+            <!----------------------Home Page------------------------>
+            <ion-tab tab = "home">
+                <ion-nav id = "home-nav"></ion-nav>
+                <div id = "home-page">
+                    <ion-header>
+                        <ion-toolbar>
+                            <ion-title>My Garden Gallery</ion-title>
+                        </ion-toolbar>
+                    </ion-header>
+                    <ion-content>
+                      <!--Photo gallery-->
+                        <div class = "gallery"> </div>
+                    </ion-content>
+                </div>
+            </ion-tab>
+            <!----------------------Plant Page------------------------>
+            <ion-tab tab =  "plants">
+                <ion-nav id = "plants-nav"></ion-nav>
+                <div id = "plants-page">
+                    <ion-header>
+                        <ion-toolbar>
+                            <ion-title>Plants</ion-title>
+                        </ion-toolbar>
+                    </ion-header>
+                    <ion-searchbar show-cancel-button="focus" class="custom"> </ion-searchbar>
+                    <ion-list id = "list" class = "hidden"></ion-list>
+                    <ion-content>
+                        <ion-card id = 'plants-info-card'>
+                            <ion-card-header>
+                              <ion-card-title>Plant Information</ion-card-title>
+                            </ion-card-header>
+                            <ion-card-content>
+                              <!--Image from API-->
+                                <ion-img [src] = plantImage alt="plant-image"></ion-img>
+                              <ion-item>
+                                <!--Plant data from API-->
+                                    <ion-label position = "fixed">Name: </ion-label>
+                                    <ion-label id = 'lbl-common'></ion-label>
+                                  </ion-item>
+                              <ion-item>
+                                <ion-label position = "fixed">Category </ion-label>
+                                <ion-label id = 'lbl-category'></ion-label>
+                              </ion-item>
+                              <ion-item>
+                                <ion-label position = "fixed">Climate</ion-label>
+                                <ion-label id = 'lbl-climate'></ion-label>
+                              </ion-item>
+                              <ion-item>
+                                <ion-label position = "fixed">Family: </ion-label>
+                                <ion-label id = 'lbl-family'></ion-label>
+                              </ion-item>
+                              <ion-item>
+                                <ion-label position = "fixed">Ideallight: </ion-label>
+                                <ion-label id = 'lbl-ideallight'></ion-label>
+                              </ion-item>
+                              <ion-item>
+                                <ion-label position = "fixed">Latin name: </ion-label>
+                                <ion-label id = 'lbl-latin'></ion-label>
+                              </ion-item>
+                              <ion-item>
+                                <ion-label position = "fixed">Origin: </ion-label>
+                                <ion-label id = 'lbl-origin'></ion-label>
+                              </ion-item>
+                              <ion-item>
+                                <ion-label position = "fixed">Maximum Temperature: </ion-label>
+                                <ion-label id = 'lbl-maxtemp'></ion-label>
+                              </ion-item>
+                              <ion-item>
+                                <ion-label position = "fixed">Minimum Temperature: </ion-label>
+                                <ion-label id = 'lbl-mintemp'></ion-label>
+                              </ion-item>
+                              <ion-item>
+                                <ion-label position = "fixed">Tolerated light: </ion-label>
+                                <ion-label id = 'lbl-tollight'></ion-label>
+                              </ion-item>
+                              <ion-item>
+                                <ion-label position = "fixed">Use: </ion-label>
+                                <ion-label id = 'lbl-use'></ion-label>
+                              </ion-item>
+                              <ion-item>
+                                <ion-label position = "fixed">Watering Requirements: </ion-label>
+                                <ion-label id = 'lbl-watering'></ion-label>
+                              </ion-item>
+                            </ion-card-content>  
+                           </ion-card>
+                    </ion-content>
+                </div>
+            </ion-tab>
+            <!----------------------Task Page------------------------>
+            <ion-tab tab = "tasks">
+                <ion-nav id = "task-nav"></ion-nav>
+                <div id = "task-page">
+                    <ion-header>
+                        <ion-toolbar>
+                            <ion-title>Task Management</ion-title>
+                        </ion-toolbar>
+                    </ion-header>
+                    <ion-content>
+                        <!--Add tasks-->
+                        <ion-item>
+                            <ion-label position = "stacked">Task name</ion-label>
+                            <ion-input id = "taskName" placeholder = "Enter task name" aria-label = "Task name"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label position = "stacked">Description</ion-label>
+                            <ion-textarea id = "taskDescription" placeholder = "Enter description" aria-label = "Description"></ion-textarea>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label position = "stacked">Due date</ion-label>
+                            <ion-input id = "dueDate" placeholder = "DD/MM/YYYY" aria-label = "Due date"></ion-input>
+                        </ion-item>
+                        <ion-button id = "addTaskButton" expand = "block" (click)="addTask()" class = "custom">Add Task</ion-button>
+                        <!--Display Tasks-->
+                        <ion-list id = "taskList"></ion-list>
+                    </ion-content>
+                </div>
+            </ion-tab>
+            <!----------------------Tab Bar------------------------>
+            <ion-tab-bar slot = "bottom">
+                <ion-tab-button tab = "home">
+                    <ion-icon name = "earth"></ion-icon>
+                        My Garden
+                </ion-tab-button>
+                <ion-tab-button tab = "plants">
+                        <ion-icon name = "leaf"></ion-icon>
+                        Plants
+                    </ion-tab-button>
+                </ion-tab-button>
+                <ion-tab-button tab = "tasks">
+                    <ion-icon name = "create"></ion-icon>
+                        Tasks
+                </ion-tab-button>
+            </ion-tab-bar>
+        </ion-tabs>
+    </ion-app>
+    <script src = "app.js"></script>
+</body>
+</html>
